@@ -1190,4 +1190,37 @@
             const tbody = document.getElementById('resultTableBody');
 
             if (!isFinalized || !finalResults) {
-     
+                notice.classList.remove('hidden');
+                container.classList.add('hidden');
+                return;
+            }
+
+            notice.classList.add('hidden');
+            container.classList.remove('hidden');
+            tbody.innerHTML = '';
+
+            finalResults.forEach(res => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-gray-200 hover:bg-gray-50";
+
+                const badge = res.isAccepted 
+                    ? `<span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300"><i class="fa-solid fa-circle-check"></i> 수강 성공</span>`
+                    : `<span class="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-300"><i class="fa-solid fa-circle-xmark"></i> 수강 실패</span>`;
+
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-gray-800">
+                        ${res.course.name}
+                        <div class="text-[10px] text-gray-400 font-mono">${res.course.id}</div>
+                    </td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${res.course.type === '전공' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}">${res.course.type}</span></td>
+                    <td class="p-3 font-bold text-kuGreen">${res.myBet} M</td>
+                    <td class="p-3 font-mono text-gray-600">${res.cutoffMileage} M</td>
+                    <td class="p-3 text-center">${badge}</td>
+                    <td class="p-3 text-xs font-medium ${res.isAccepted ? 'text-emerald-700' : 'text-gray-400'}">${res.reasonText}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
